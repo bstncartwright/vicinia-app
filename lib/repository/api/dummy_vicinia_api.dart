@@ -39,11 +39,11 @@ class DummyViciniaApiClient extends ViciniaApiClient {
 
   Future<Response> createMessage(dynamic message) async {
     await Future.delayed(Duration(milliseconds: 33));
-    var newMessage = Message.fromJson(json.decode(message));
+    var newMessage = Message.fromJson(json.encode(message));
     if (newMessage.text == "error!") {
       return Response(statusCode: 500);
     }
-    message.add(newMessage);
+    messages.add(newMessage);
     return Response(statusCode: 200);
   }
 
@@ -53,15 +53,6 @@ class DummyViciniaApiClient extends ViciniaApiClient {
     for (var item in messages) {
       messageList.add(item.id);
     }
-    //var messageList = "[";
-    // for (var i = 0; i < messages.length; i++) {
-    //   var message = messages[i];
-    //   if (i == messages.length - 1) {
-    //     messageList += "\"${message.id}\"]";
-    //   } else {
-    //     messageList += "\"${message.id}\", ";
-    //   }
-    // }
     return Response(data: json.encode(messageList), statusCode: 200);
   }
 

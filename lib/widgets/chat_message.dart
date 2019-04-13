@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import '../models/models.dart';
 
 class ChatMessage extends StatelessWidget {
+  final Key key;
   final Message message;
 
-  const ChatMessage({@required this.message})
+  const ChatMessage({this.key, @required this.message})
       : assert(message != null),
-        super();
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,4 +37,11 @@ class ChatMessage extends StatelessWidget {
       ),
     );
   }
+}
+
+class ChatMessageFader {
+  final ChatMessage chatMessage;
+  bool faded = false;
+
+  ChatMessageFader({@required this.chatMessage}) : assert(chatMessage != null);
 }

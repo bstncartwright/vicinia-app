@@ -11,7 +11,7 @@ class ViciniaRepository {
   ViciniaRepository({this.api}) : assert(api != null);
 
   Future<bool> createMessage(Message message) async {
-    var result = await api.createMessage(message);
+    var result = await api.createMessage(json.decode(message.toJson()));
     if (result.statusCode != 200) {
       // TODO handle error
       return false;

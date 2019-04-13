@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
@@ -31,20 +33,33 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     if (event is Fetch && !_hasReachedMax(currentState)) {
       try {
         if (currentState is InitialChatState) {
+          yield LoadingChatState();
           final messages = await _fetchMessages();
           yield LoadedChatState(messages: messages, hasReachedMax: false);
+          _fetchInFuture();
           return;
         }
         if (currentState is LoadedChatState) {
           // TODO make it so we don't fetch ALL messages each time
           final messages = await _fetchMessages();
           yield LoadedChatState(messages: messages, hasReachedMax: false);
+          _fetchInFuture();
           return;
         }
       } catch (_) {
         yield ErrorChatState();
       }
     }
+  }
+
+  Future<void> _fetchInFuture() async {
+    await Future.delayed(Duration(seconds: 5));
+    this.dispatch(Fetch());
+    // some crazyness for testing
+    await Future.delayed(Duration(seconds: 2));
+    var rng = Random();
+    repository.createMessage(Message.fromJson(
+        '{ "id":"123445667${rng.nextInt(10000000)}", "name":"CoooolDude!", "text":"Mitchel is the hottest man I\'ve ever met, except for Francesco!", "time":"2018-09-17T00:07:57Z", "location": { "long":34.232, "lat":23.55 } }'));
   }
 
   bool _hasReachedMax(ChatState state) =>

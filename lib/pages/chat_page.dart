@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/bloc.dart';
 import '../repository/repository.dart';
 import '../widgets/widgets.dart';
+import '../animations/animations.dart';
 import '../models/models.dart';
 
 class ChatPage extends StatefulWidget {
@@ -17,7 +18,10 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final TextEditingController _textController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   ChatBloc _chatBloc;
+
+  List<ChatMessageFader> _chatMessages = <ChatMessageFader>[];
 
   @override
   void initState() {
@@ -28,6 +32,26 @@ class _ChatPageState extends State<ChatPage> {
 
   void _handleSubmitted(String text) {
     _textController.clear();
+  }
+
+  void _populateChatMessages(List<Message> messages) {
+    var messeg = _findDifferentMessages(messages);
+    _chatMessages.addAll(messeg);
+  }
+
+  Iterable<ChatMessageFader> _findDifferentMessages(List<Message> messages) {
+    var mes = messages.where((message) {
+      if (_chatMessages
+              .where((cm) => cm.chatMessage.message.id == message.id).isEmpty) {
+        return true;
+      }
+      return false;
+    });
+    var cmes = <ChatMessageFader>[];
+    for (var m in mes) {
+      cmes.add(ChatMessageFader(chatMessage: ChatMessage(message: m)));
+    }
+    return cmes;
   }
 
   Widget _chatComposer() {
@@ -67,7 +91,14 @@ class _ChatPageState extends State<ChatPage> {
             child: BlocBuilder(
               bloc: _chatBloc,
               builder: (BuildContext context, ChatState state) {
-                if (state is InitialChatState || state is LoadingChatState) {
+                if (state is InitialChatState) {
+                  return Center(
+                    child: Container(
+                      child: Text("Welcome to Valincia!"),
+                    ),
+                  );
+                }
+                if (state is LoadingChatState) {
                   return Center(
                     child: Container(
                       width: 100,
@@ -77,13 +108,27 @@ class _ChatPageState extends State<ChatPage> {
                   );
                 }
                 if (state is LoadedChatState) {
+                  _populateChatMessages(state.messages);
                   return ListView.builder(
+                    controller: _scrollController,
                     padding: EdgeInsets.all(8.0),
                     reverse: true,
                     itemBuilder: (context, int index) {
-                      return ChatMessage(message: state.messages[index]);
+                      // return FadeIn(
+                      //   .5 + ((state.messages.length - index) * .2),
+                      //   ChatMessage(
+                      //     message: state.messages[index],
+                      //   ),
+                      // );
+                      var fader = _chatMessages[index];
+                      if (fader.faded) {
+                        return fader.chatMessage;
+                      } else {
+                        fader.faded = true;
+                        return FadeIn(.5, fader.chatMessage);
+                      }
                     },
-                    itemCount: state.messages.length,
+                    itemCount: _chatMessages.length,
                   );
                 }
                 if (state is ErrorChatState) {
