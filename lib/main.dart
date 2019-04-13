@@ -9,18 +9,20 @@ void main() => runApp(Vicinia());
 class Vicinia extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return DynamicTheme(
-      defaultBrightness: Brightness.light,
-      data: (brightness) => ThemeFactory().getTheme(
-            brightness,
-          ),
-      themedWidgetBuilder: (context, theme) {
-        return MaterialApp(
-          title: 'Vicinia',
-          theme: theme,
-          home: HomePage(),
-        );
-      },
+    return Constants(
+      child: DynamicTheme(
+        defaultBrightness: Brightness.light,
+        data: (brightness) => ThemeFactory().getTheme(
+              brightness,
+            ),
+        themedWidgetBuilder: (context, theme) {
+          return MaterialApp(
+            title: 'Vicinia',
+            theme: theme,
+            home: HomePage(),
+          );
+        },
+      ),
     );
   }
 }

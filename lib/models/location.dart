@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'serializers.dart';
 
@@ -24,6 +24,12 @@ abstract class Location implements Built<Location, LocationBuilder> {
   static Location fromJson(String jsonString) {
     return serializers.deserializeWith(
         Location.serializer, json.decode(jsonString));
+  }
+
+  static Location fromPosition(Position position) {
+    return Location((b) => b
+      ..lat = position.latitude
+      ..long = position.longitude);
   }
 
   static Serializer<Location> get serializer => _$locationSerializer;

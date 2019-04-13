@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
+import 'pages.dart';
+import '../utils/utils.dart';
+
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,7 @@ class _LocationerTestState extends State<LocationerTest> {
       child: Column(
         children: <Widget>[
           Text("Your location is $location"),
-          MaterialButton(
+          RaisedButton(
             child: Text("Get location"),
             onPressed: () async {
               Position position = await Geolocator()
@@ -36,6 +39,16 @@ class _LocationerTestState extends State<LocationerTest> {
               setState(() {
                 location = "${position.longitude}, ${position.latitude}";
               });
+            },
+          ),
+          RaisedButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ChatPage(
+                      repository: Constants.of(context).viciniaRepository),
+                ),
+              );
             },
           )
         ],

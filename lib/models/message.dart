@@ -24,6 +24,7 @@ abstract class Message implements Built<Message, MessageBuilder> {
   String get time;
   @BuiltValueField(wireName: 'location')
   Location get location;
+  
   String toJson() {
     return json.encode(serializers.serializeWith(Message.serializer, this));
   }
