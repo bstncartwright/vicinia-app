@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:flutter/animation.dart';
 
 import 'pages.dart';
@@ -21,17 +20,6 @@ class _NameSelectionPageState extends State<NameSelectionPage>
   @override
   void initState() {
     super.initState();
-
-    KeyboardVisibilityNotification().addNewListener(
-      onChange: (bool visible) {
-        setState(() {
-          _focused
-              ? animationController.reverse()
-              : animationController.forward();
-          _focused = !_focused;
-        });
-      },
-    );
   }
 
   @override
@@ -151,9 +139,7 @@ class _NameSelectionPageState extends State<NameSelectionPage>
                             autocorrect: false,
                             maxLength: 18,
                             maxLengthEnforced: true,
-                            style: TextStyle(
-                              fontSize: 24
-                            ),
+                            style: TextStyle(fontSize: 24),
                             decoration: InputDecoration.collapsed(
                               hintText: "",
                               hintStyle: TextStyle(
@@ -183,7 +169,7 @@ class _NameSelectionPageState extends State<NameSelectionPage>
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("SWIPE LEFT TO JOIN"),
+                          Text("SWIPE TO JOIN"),
                         ],
                       ),
                     ),
