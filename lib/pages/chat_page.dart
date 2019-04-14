@@ -121,7 +121,7 @@ class _ChatPageState extends State<ChatPage> {
               _chatMessages = [];
               _chatBloc.dispatch(Refresh());
             },
-          )
+          ),
         ],
       ),
       body: Column(
