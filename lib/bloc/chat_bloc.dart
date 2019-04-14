@@ -21,6 +21,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     location = await getCurrentLocation();
     var placem = await getPlacemarkFromLocation(location);
     placemark = placem.thoroughfare;
+    if (placemark.isEmpty) {
+      placemark = placem.subAdministrativeArea;
+    }
     _locationLoop();
   }
 
@@ -42,7 +45,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     }
     if (event is Fetch && !_hasReachedMax(currentState)) {
       try {
-        if (currentState is InitialChatState || currentState is LoadingChatState) {
+        if (currentState is InitialChatState ||
+            currentState is LoadingChatState) {
           yield LoadingChatState();
           final messages = await _fetchMessages();
           yield LoadedChatState(
