@@ -35,9 +35,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   Stream<ChatState> mapEventToState(
     ChatEvent event,
   ) async* {
+    if (event is Refresh) {
+      yield LoadingChatState();
+      this.dispatch(Fetch());
+    }
     if (event is Fetch && !_hasReachedMax(currentState)) {
       try {
-        if (currentState is InitialChatState) {
+        if (currentState is InitialChatState || currentState is LoadingChatState) {
           yield LoadingChatState();
           final messages = await _fetchMessages();
           yield LoadedChatState(
