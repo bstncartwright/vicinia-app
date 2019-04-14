@@ -78,6 +78,8 @@ class _ChatPageState extends State<ChatPage> {
                   controller: _textController,
                   onSubmitted: _handleSubmitted,
                   maxLength: 280,
+                  maxLengthEnforced: true,
+                  keyboardType: TextInputType.multiline,
                   decoration:
                       InputDecoration.collapsed(hintText: "Send a message"),
                 ),
