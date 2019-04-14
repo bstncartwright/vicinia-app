@@ -1,16 +1,20 @@
-# vicinia
+[![Codemagic build status](https://api.codemagic.io/apps/5cb1f56a4ea08100147dbe4e/5cb1f56a4ea08100147dbe4d/status_badge.svg)](https://codemagic.io/apps/5cb1f56a4ea08100147dbe4e/5cb1f56a4ea08100147dbe4d/latest_build)
 
-A new Flutter project.
+# Vicinia
 
-## Getting Started
+The main user experience of the [Vicinia](https://vicinia.net) service written in 24 hours at [PackHacks 2019](http://ncsupackhacks.org/).
 
-This project is a starting point for a Flutter application.
+## Team Members
 
-A few resources to get you started if this is your first Flutter project:
+* Francesco Hayes: Web Developer
+* Boston Cartwright: Mobile App Developer
+* Tyler Smith: Backend Developer
+* Michelle Charette: "Math Guy" on Backend Developer
 
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
+## Description
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+This app is written on the Flutter framework entirely in the Dart language. It takes advantage of of the BLoC design pattern, in order to keep the business logic seperated from the presentation layer, utilizing asyncronous streams. It also utilizes the repository pattern which helped greatly with testing and UI development. It also incorporates [built_value](https://pub.dartlang.org/packages/built_value) in order to provide immutable value types.  
+
+## DevOps
+
+In order to implement our DevOps pipeline for CI, we utilized [codemagic](https://codemagic.io/start/). Though it currently doesn't deploy to any sources, it is very easy to set it up if we decide to release it on the available channels.
