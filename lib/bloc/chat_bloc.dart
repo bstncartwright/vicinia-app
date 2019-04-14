@@ -38,12 +38,17 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         if (currentState is LoadedChatState) {
           // TODO make it so we don't fetch ALL messages each time
           final messages = await _fetchMessages();
+          if (messages == null || messages.isEmpty) {
+            yield EmptyChatState();
+            _fetchInFuture();
+          }
           yield LoadedChatState(messages: messages, hasReachedMax: false);
           _fetchInFuture();
           return;
         }
       } catch (_) {
         yield ErrorChatState();
+        _fetchInFuture();
       }
     }
     if (event is Send) {

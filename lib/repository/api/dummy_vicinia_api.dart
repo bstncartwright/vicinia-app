@@ -9,15 +9,13 @@ import '../../models/models.dart';
 
 class DummyViciniaApiClient extends ViciniaApiClient {
   final String url;
-  final String code;
   final Dio dio;
 
   DummyViciniaApiClient(
-      {@required this.url, @required this.code, @required this.dio})
+      {@required this.url, @required this.dio})
       : assert(url != null),
-        assert(code != null),
         assert(dio != null),
-        super(code: code, url: url, dio: dio);
+        super( url: url, dio: dio);
 
   final List<Message> messages = <Message>[]
     ..add(Message.fromJson(
@@ -37,13 +35,12 @@ class DummyViciniaApiClient extends ViciniaApiClient {
     ..add(Message.fromJson(
         '{"id":"NO92 2970 0975 076","text":"Integer non velit. Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi.","name":"twedmore7","time":"2018-05-12T01:13:59Z","location":{"long":15.8843252,"lat":45.7608012}}'));
 
-  Future<Response> createMessage(dynamic message) async {
+  Future<Response> createMessage(Message message) async {
     await Future.delayed(Duration(milliseconds: 33));
-    var newMessage = Message.fromJson(json.encode(message));
-    if (newMessage.text == "error!") {
+    if (message.text == "error!") {
       return Response(statusCode: 500);
     }
-    messages.insert(0, newMessage);
+    messages.insert(0, message);
     return Response(statusCode: 200);
   }
 

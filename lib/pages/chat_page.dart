@@ -108,6 +108,13 @@ class _ChatPageState extends State<ChatPage> {
             child: BlocBuilder(
               bloc: _chatBloc,
               builder: (BuildContext context, ChatState state) {
+                if (state is EmptyChatState) {
+                  return Center(
+                    child: Container(
+                      child: Text("no messages :("),
+                    ),
+                  );
+                }
                 if (state is InitialChatState) {
                   return Center(
                     child: Container(

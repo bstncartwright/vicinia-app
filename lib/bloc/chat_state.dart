@@ -13,6 +13,11 @@ class InitialChatState extends ChatState {
   String toString() => 'InitialChatState';
 }
 
+class EmptyChatState extends ChatState {
+  @override
+  String toString() => 'EmptyChatState';
+}
+
 class LoadingChatState extends ChatState {
   @override
   String toString() => 'LoadingChatState';

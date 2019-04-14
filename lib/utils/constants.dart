@@ -12,9 +12,8 @@ class Constants extends InheritedWidget {
   Constants({Widget child, Key key}) : super(key: key, child: child);
 
   final ViciniaRepository viciniaRepository = ViciniaRepository(
-    api: DummyViciniaApiClient(
-      url: 'url.com',
-      code: '12345',
+    api: ViciniaApiClient(
+      url: 'https://vicinia.azurewebsites.net/',
       dio: Dio(),
     ),
   );
