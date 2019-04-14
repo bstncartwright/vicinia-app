@@ -33,8 +33,11 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _handleSubmitted(String text) {
+    if( text.isNotEmpty)
+    {
     _chatBloc.dispatch(Send(message: text));
     _textController.clear();
+    }
   }
 
   void _populateChatMessages(List<Message> messages) {
