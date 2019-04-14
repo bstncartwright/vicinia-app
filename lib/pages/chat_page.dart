@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -41,11 +43,17 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _populateChatMessages(List<Message> messages) {
-    var messeg = _findDifferentMessages(messages);
-    _chatMessages.insertAll(0, messeg);
+    if (messages != null) {
+      var messeg = _findDifferentMessages(messages);
+      _chatMessages.insertAll(0, messeg);
+    }
+    //_chatMessages = _chatMessages.reversed.toList();
   }
 
   Iterable<ChatMessageFader> _findDifferentMessages(List<Message> messages) {
+    if (messages == null || _chatMessages == null) {
+      return <ChatMessageFader>[];
+    }
     var mes = messages.where((message) {
       if (_chatMessages
           .where((cm) => cm.chatMessage.message.id == message.id)
@@ -105,13 +113,22 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       appBar: AppBar(
         leading: Image.asset("assets/icon/icon_white.png"),
-        title: state is LoadedChatState
-            ? Text("${state.placemark}")
-            : Text(""),
+        title: state is LoadedChatState ? Text("${state.placemark}") : Text(""),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () {
+              _chatMessages = [];
+              _chatBloc.dispatch(Refresh());
+            },
+          )
+        ],
       ),
       body: Column(
         children: <Widget>[
-          Flexible(child: child),
+          Flexible(
+            child: child,
+          ),
           Divider(height: 1.0),
           Container(
             decoration: new BoxDecoration(color: Theme.of(context).cardColor),
@@ -160,7 +177,7 @@ class _ChatPageState extends State<ChatPage> {
           _populateChatMessages(state.messages);
           return _mainLayout(
               child: ListView.builder(
-                controller: _scrollController,
+                // controller: _scrollController,
                 padding: EdgeInsets.all(8.0),
                 reverse: true,
                 itemBuilder: (context, int index) {

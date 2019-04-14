@@ -11,13 +11,18 @@ class Fetch extends ChatEvent {
   String toString() => 'Fetch';
 }
 
+class Refresh extends ChatEvent {
+  @override
+  String toString() => 'Refresh';
+}
+
 class Send extends ChatEvent {
   final String message;
 
   Send({@required this.message})
       : assert(message != null),
         super();
-        
+
   @override
   String toString() => 'Send';
 }
