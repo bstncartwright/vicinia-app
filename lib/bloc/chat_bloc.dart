@@ -85,7 +85,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   Future<void> _fetchInFuture() async {
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(Duration(seconds: 2));
     this.dispatch(Fetch());
     // some crazyness for testing dd
     //   await Future.delayed(Duration(seconds: 2));
