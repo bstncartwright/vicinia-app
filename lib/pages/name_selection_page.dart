@@ -83,6 +83,7 @@ class _NameSelectionPageState extends State<NameSelectionPage>
         }
       },
       child: Scaffold(
+        resizeToAvoidBottomPadding: false,
         //appBar: AppBar(title: Text("Username | Vicinia")),
         body: Center(
           child: Container(
@@ -145,6 +146,9 @@ class _NameSelectionPageState extends State<NameSelectionPage>
                             autocorrect: false,
                             maxLength: 18,
                             maxLengthEnforced: true,
+                            style: TextStyle(
+                              fontSize: 24
+                            ),
                             decoration: InputDecoration.collapsed(
                               hintText: "",
                               hintStyle: TextStyle(
