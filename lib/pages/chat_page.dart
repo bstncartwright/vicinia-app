@@ -9,8 +9,10 @@ import '../models/models.dart';
 
 class ChatPage extends StatefulWidget {
   final ViciniaRepository repository;
+  final String name;
 
-  const ChatPage({Key key, @required this.repository}) : super(key: key);
+  const ChatPage({Key key, @required this.repository, @required this.name})
+      : super(key: key);
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -26,30 +28,36 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
-    _chatBloc = ChatBloc(repository: widget.repository);
+    _chatBloc = ChatBloc(repository: widget.repository, username: widget.name);
     _chatBloc.dispatch(Fetch());
   }
 
   void _handleSubmitted(String text) {
+    _chatBloc.dispatch(Send(message: text));
     _textController.clear();
   }
 
   void _populateChatMessages(List<Message> messages) {
     var messeg = _findDifferentMessages(messages);
-    _chatMessages.addAll(messeg);
+    _chatMessages.insertAll(0, messeg);
   }
 
   Iterable<ChatMessageFader> _findDifferentMessages(List<Message> messages) {
     var mes = messages.where((message) {
       if (_chatMessages
-              .where((cm) => cm.chatMessage.message.id == message.id).isEmpty) {
+          .where((cm) => cm.chatMessage.message.id == message.id)
+          .isEmpty) {
         return true;
       }
       return false;
     });
     var cmes = <ChatMessageFader>[];
     for (var m in mes) {
-      cmes.add(ChatMessageFader(chatMessage: ChatMessage(message: m)));
+      cmes.add(ChatMessageFader(
+          chatMessage: ChatMessage(
+        message: m,
+        incoming: (widget.name == m.name) ? false : true,
+      )));
     }
     return cmes;
   }
@@ -101,8 +109,8 @@ class _ChatPageState extends State<ChatPage> {
                 if (state is LoadingChatState) {
                   return Center(
                     child: Container(
-                      width: 100,
-                      height: 100,
+                      width: 50,
+                      height: 50,
                       child: CircularProgressIndicator(),
                     ),
                   );
@@ -114,12 +122,6 @@ class _ChatPageState extends State<ChatPage> {
                     padding: EdgeInsets.all(8.0),
                     reverse: true,
                     itemBuilder: (context, int index) {
-                      // return FadeIn(
-                      //   .5 + ((state.messages.length - index) * .2),
-                      //   ChatMessage(
-                      //     message: state.messages[index],
-                      //   ),
-                      // );
                       var fader = _chatMessages[index];
                       if (fader.faded) {
                         return fader.chatMessage;
@@ -143,13 +145,17 @@ class _ChatPageState extends State<ChatPage> {
           ),
           Divider(height: 1.0),
           Container(
-            //new
-            decoration:
-                new BoxDecoration(color: Theme.of(context).cardColor), //new
-            child: _chatComposer(), //modified
+            decoration: new BoxDecoration(color: Theme.of(context).cardColor),
+            child: _chatComposer(),
           ),
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _chatBloc.dispose();
+    super.dispose();
   }
 }

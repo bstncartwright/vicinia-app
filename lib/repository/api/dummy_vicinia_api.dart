@@ -43,7 +43,7 @@ class DummyViciniaApiClient extends ViciniaApiClient {
     if (newMessage.text == "error!") {
       return Response(statusCode: 500);
     }
-    messages.add(newMessage);
+    messages.insert(0, newMessage);
     return Response(statusCode: 200);
   }
 

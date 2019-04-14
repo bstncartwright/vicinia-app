@@ -46,7 +46,7 @@ class _LocationerTestState extends State<LocationerTest> {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => ChatPage(
-                      repository: Constants.of(context).viciniaRepository),
+                      repository: Constants.of(context).viciniaRepository, name: "munkurious"),
                 ),
               );
             },

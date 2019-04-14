@@ -13,9 +13,10 @@ import '../repository/repository.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final ViciniaRepository repository;
+  final String username;
   Location location;
 
-  ChatBloc({@required this.repository}) {
+  ChatBloc({@required this.username, @required this.repository}) {
     _updateLocation();
   }
 
@@ -50,16 +51,25 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         yield ErrorChatState();
       }
     }
+    if (event is Send) {
+      var message = Message.fromJson(
+          '{ "id":"123", "name":"$username", "text":"${event.message}", "time":"${DateTime.now().toIso8601String()}", "location":{ "long":${location.long}, "lat":${location.lat} } }');
+      final sent = await repository.createMessage(message);
+      if (!sent) {
+        // handle error
+      }
+      this.dispatch(Fetch());
+    }
   }
 
   Future<void> _fetchInFuture() async {
     await Future.delayed(Duration(seconds: 5));
     this.dispatch(Fetch());
     // some crazyness for testing
-    await Future.delayed(Duration(seconds: 2));
-    var rng = Random();
-    repository.createMessage(Message.fromJson(
-        '{ "id":"123445667${rng.nextInt(10000000)}", "name":"CoooolDude!", "text":"Mitchel is the hottest man I\'ve ever met, except for Francesco!", "time":"2018-09-17T00:07:57Z", "location": { "long":34.232, "lat":23.55 } }'));
+    //   await Future.delayed(Duration(seconds: 2));
+    //   var rng = Random();
+    //   repository.createMessage(Message.fromJson(
+    //       '{ "id":"123445667${rng.nextInt(10000000)}", "name":"CoooolDude!", "text":"Mitchel is the hottest man I\'ve ever met, except for Francesco!", "time":"2018-09-17T00:07:57Z", "location": { "long":34.232, "lat":23.55 } }'));
   }
 
   bool _hasReachedMax(ChatState state) =>

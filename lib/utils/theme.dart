@@ -10,20 +10,21 @@ class ThemeFactory {
   }
 
   Color _white() {
-    return Color(0xfffffff);
+    return Color(0xffffffff);
   }
 
-  Color _dark() {
+  Color dark() {
     return Color(0xff1d2b3b);
   }
 
   ThemeData _lightTheme() {
-    return ThemeData.light().copyWith(
-      primaryColor: _blue(),
-      accentColor: _blue(),
+    return ThemeData(
+      primaryColor: dark(),
+      accentColor: dark(),
       canvasColor: _grey(),
-      scaffoldBackgroundColor: _grey(),
-      cardColor: _white(),
+      scaffoldBackgroundColor: _white(),
+      cardColor: Color(0xFFf2f2f2),
+      fontFamily: 'Sans Serif',
     );
   }
 
@@ -31,9 +32,9 @@ class ThemeFactory {
     return ThemeData.dark().copyWith(
       primaryColor: _blue(),
       accentColor: _blue(),
-      canvasColor: _dark(),
-      scaffoldBackgroundColor: _dark(),
-      cardColor: _dark(),
+      canvasColor: dark(),
+      scaffoldBackgroundColor: dark(),
+      cardColor: dark(),
     );
   }
 
