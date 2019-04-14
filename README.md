@@ -11,10 +11,10 @@ The main user experience of the [Vicinia](https://vicinia.net) service written i
 
 ## Team Members
 
-- Francesco Hayes: Web Developer
-- Boston Cartwright: Mobile App Developer
-- Tyler Smith: Backend Developer
-- Michelle Charette: "Math Guy" on Backend Developer
+- [Francesco Hayes](https://github.com/francesco-hayes): Web Developer
+- [Boston Cartwright](https://github.com/munkurious): Mobile App Developer
+- [Tyler Smith](https://github.com/tylerssmith): Backend Developer
+- [Michelle Charette](https://github.com/theManMitch): "Math Guy" on Backend Developer
 
 ## Description
 
