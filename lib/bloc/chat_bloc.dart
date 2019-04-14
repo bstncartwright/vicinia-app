@@ -12,6 +12,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final ViciniaRepository repository;
   final String username;
   Location location;
+  String placemark = '';
 
   ChatBloc({@required this.username, @required this.repository}) : super();
 
@@ -31,7 +32,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         if (currentState is InitialChatState) {
           yield LoadingChatState();
           final messages = await _fetchMessages();
-          yield LoadedChatState(messages: messages, hasReachedMax: false);
+          yield LoadedChatState(messages: messages, hasReachedMax: false, location: location, placemark: placemark);
           _fetchInFuture();
           return;
         }
@@ -42,7 +43,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
             yield EmptyChatState();
             _fetchInFuture();
           }
-          yield LoadedChatState(messages: messages, hasReachedMax: false);
+          yield LoadedChatState(messages: messages, hasReachedMax: false, placemark: placemark, location: location);
           _fetchInFuture();
           return;
         }
@@ -78,6 +79,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   Future<List<Message>> _fetchMessages() async {
     if (location == null) {
       await _updateLocation();
+      var placem = await getPlacemarkFromLocation(location);
+      placemark = placem.thoroughfare;
     }
     var messages = await repository.getMessages(location);
     return messages;

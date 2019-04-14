@@ -6,6 +6,7 @@ import '../repository/repository.dart';
 import '../widgets/widgets.dart';
 import '../animations/animations.dart';
 import '../models/models.dart';
+import '../utils/utils.dart';
 
 class ChatPage extends StatefulWidget {
   final ViciniaRepository repository;
@@ -33,10 +34,9 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _handleSubmitted(String text) {
-    if( text.isNotEmpty)
-    {
-    _chatBloc.dispatch(Send(message: text));
-    _textController.clear();
+    if (text.isNotEmpty) {
+      _chatBloc.dispatch(Send(message: text));
+      _textController.clear();
     }
   }
 
@@ -101,67 +101,17 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _mainLayout({Widget child, ChatState state}) {
     return Scaffold(
-      appBar: AppBar(leading:Image.asset("assets/icon/icon_white.png"), title: Text("Beta"),),
+      appBar: AppBar(
+        leading: Image.asset("assets/icon/icon_white.png"),
+        title: state is LoadedChatState
+            ? Text("${state.placemark}")
+            : Text(""),
+      ),
       body: Column(
         children: <Widget>[
-          Flexible(
-            child: BlocBuilder(
-              bloc: _chatBloc,
-              builder: (BuildContext context, ChatState state) {
-                if (state is EmptyChatState) {
-                  return Center(
-                    child: Container(
-                      child: Text("no messages :("),
-                    ),
-                  );
-                }
-                if (state is InitialChatState) {
-                  return Center(
-                    child: Container(
-                      child: Text("Welcome to Valincia!"),
-                    ),
-                  );
-                }
-                if (state is LoadingChatState) {
-                  return Center(
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                }
-                if (state is LoadedChatState) {
-                  _populateChatMessages(state.messages);
-                  return ListView.builder(
-                    controller: _scrollController,
-                    padding: EdgeInsets.all(8.0),
-                    reverse: true,
-                    itemBuilder: (context, int index) {
-                      var fader = _chatMessages[index];
-                      if (fader.faded) {
-                        return fader.chatMessage;
-                      } else {
-                        fader.faded = true;
-                        return FadeIn(.5, fader.chatMessage);
-                      }
-                    },
-                    itemCount: _chatMessages.length,
-                  );
-                }
-                if (state is ErrorChatState) {
-                  return Center(
-                    child: Container(
-                      child: Text("there was an error :("),
-                    ),
-                  );
-                }
-              },
-            ),
-          ),
+          Flexible(child: child),
           Divider(height: 1.0),
           Container(
             decoration: new BoxDecoration(color: Theme.of(context).cardColor),
@@ -169,6 +119,73 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ],
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder(
+      bloc: _chatBloc,
+      builder: (BuildContext context, ChatState state) {
+        if (state is EmptyChatState) {
+          return _mainLayout(
+              child: Center(
+                child: Container(
+                  child: Text("no messages :("),
+                ),
+              ),
+              state: state);
+        }
+        if (state is InitialChatState) {
+          return _mainLayout(
+              child: Center(
+                child: Container(
+                  child: Text("Welcome to Valincia!"),
+                ),
+              ),
+              state: state);
+        }
+        if (state is LoadingChatState) {
+          return _mainLayout(
+              child: Center(
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+              state: state);
+        }
+        if (state is LoadedChatState) {
+          _populateChatMessages(state.messages);
+          return _mainLayout(
+              child: ListView.builder(
+                controller: _scrollController,
+                padding: EdgeInsets.all(8.0),
+                reverse: true,
+                itemBuilder: (context, int index) {
+                  var fader = _chatMessages[index];
+                  if (fader.faded) {
+                    return fader.chatMessage;
+                  } else {
+                    fader.faded = true;
+                    return FadeIn(.5, fader.chatMessage);
+                  }
+                },
+                itemCount: _chatMessages.length,
+              ),
+              state: state);
+        }
+        if (state is ErrorChatState) {
+          return _mainLayout(
+              child: Center(
+                child: Container(
+                  child: Text("there was an error :("),
+                ),
+              ),
+              state: state);
+        }
+      },
     );
   }
 

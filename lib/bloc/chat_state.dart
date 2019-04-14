@@ -25,15 +25,24 @@ class LoadingChatState extends ChatState {
 
 class LoadedChatState extends ChatState {
   final List<Message> messages;
+  final Location location;
   final bool hasReachedMax;
+  final String placemark;
 
-  LoadedChatState({this.messages, this.hasReachedMax})
-      : super([messages, hasReachedMax]);
+  LoadedChatState(
+      {this.messages, this.hasReachedMax, this.location, this.placemark})
+      : super([messages, hasReachedMax, location]);
 
-  LoadedChatState copyWith({List<Message> messages, bool hasReachedMax}) {
+  LoadedChatState copyWith(
+      {List<Message> messages,
+      bool hasReachedMax,
+      Location location,
+      String placemark}) {
     return LoadedChatState(
         messages: messages ?? this.messages,
-        hasReachedMax: hasReachedMax ?? this.hasReachedMax);
+        hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+        location: location ?? this.location,
+        placemark: placemark ?? this.placemark);
   }
 
   @override

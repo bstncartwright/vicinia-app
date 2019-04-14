@@ -7,3 +7,10 @@ Future<Location> getCurrentLocation() async {
       .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   return Location.fromPosition(position);
 }
+
+Future<Placemark> getPlacemarkFromLocation(Location location) async {
+  var placemarks =
+      await Geolocator().placemarkFromCoordinates(location.lat, location.long);
+  var placemark = placemarks.first;
+  return placemark;
+}
