@@ -104,7 +104,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(leading:Image.asset("assets/icon/icon_white.png"), title: Text("Vicinia"),),
+      appBar: AppBar(leading:Image.asset("assets/icon/icon_white.png"), title: Text("Beta"),),
       body: Column(
         children: <Widget>[
           Flexible(
