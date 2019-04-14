@@ -6,11 +6,7 @@ The main user experience of the [Vicinia](https://vicinia.net) service written i
 
 ## Photos
 
-<img src="https://vicinia.net/img/mobile_01.2765fb34.webp" alt="Vicinia Splash Photo" width="250"/>
-
-<img src="https://vicinia.net/img/mobile_02.e0ca32d0.webp" alt="Vicinia Username Photo" width="250"/>
-
-<img src="https://vicinia.net/img/mobile_04.5f60fc8e.webp" alt="Vicinia Chat Photo" width="250"/>
+<img src="https://vicinia.net/img/mobile_01.2765fb34.webp" alt="Vicinia Splash Photo" width="250"/><img src="https://vicinia.net/img/mobile_02.e0ca32d0.webp" alt="Vicinia Username Photo" width="250"/><img src="https://vicinia.net/img/mobile_04.5f60fc8e.webp" alt="Vicinia Chat Photo" width="250"/>
 
 
 ## Team Members
