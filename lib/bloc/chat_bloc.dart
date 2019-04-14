@@ -22,7 +22,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     var placem = await getPlacemarkFromLocation(location);
     placemark = placem.thoroughfare;
     if (placemark.isEmpty) {
-      placemark = placem.subAdministrativeArea;
+      placemark = placem.administrativeArea;
     }
     _locationLoop();
   }
