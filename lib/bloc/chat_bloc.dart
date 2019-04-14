@@ -16,9 +16,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final String username;
   Location location;
 
-  ChatBloc({@required this.username, @required this.repository}) {
-    _updateLocation();
-  }
+  ChatBloc({@required this.username, @required this.repository}) : super();
 
   Future<void> _updateLocation() async {
     location = await getCurrentLocation();
