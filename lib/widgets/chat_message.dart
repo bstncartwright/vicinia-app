@@ -13,18 +13,21 @@ class ChatMessage extends StatelessWidget {
         super(key: key);
 
   String _ago(int minutes) {
-    if(minutes == 0){
+    if (minutes == 0) {
       return "Now";
-    }else if(minutes>60){
-      int s =  minutes ~/ 60;
-      if(s>1){
-      return "$s hours ago";
-      }else{
-        return"$s hour ago";
+    } else if (minutes > 60) {
+      int s = minutes ~/ 60;
+      if (s > 1) {
+        return "$s hours ago";
+      } else {
+        return "$s hour ago";
       }
+    } else {if(minutes == 1){
+      return "$minutes minute ago";
     }else{
-    return "$minutes minutes ago";
-  }
+      return "$minutes minutes ago";
+    }
+    }
   }
 
   @override
@@ -46,21 +49,33 @@ class ChatMessage extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(4.0),
-              child: Row(
-                mainAxisAlignment:
-                    incoming ? MainAxisAlignment.start : MainAxisAlignment.end,
+              child: Stack(
+                //mainAxisAlignment:
+                //incoming ? MainAxisAlignment.start : MainAxisAlignment.end,
                 children: <Widget>[
-                  Text(
-                    time,
-                    style: Theme.of(context)
-                        .textTheme
-                        .title
-                        .copyWith(fontSize: 12),
-                    // message.name,
-                    // style: Theme.of(context)
-                    //     .textTheme
-                    //     .title
-                    //     .copyWith(fontSize: 18.0),
+                  Row(
+                    mainAxisAlignment: !incoming ? MainAxisAlignment.start : MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        time,
+                        style: Theme.of(context)
+                            .textTheme
+                            .title
+                            .copyWith(fontSize: 12),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: !incoming ? MainAxisAlignment.end : MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        message.name,
+                        style: Theme.of(context)
+                            .textTheme
+                            .title
+                            .copyWith(fontSize: 18.0),
+                      ),
+                    ],
                   ),
                 ],
               ),
