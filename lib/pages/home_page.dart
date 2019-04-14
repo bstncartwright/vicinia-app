@@ -1,16 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'pages.dart';
 import '../utils/utils.dart';
+import '../animations/animations.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Home Page"),
-      ),
       body: Center(
         child: LocationerTest(),
       ),
@@ -24,34 +24,27 @@ class LocationerTest extends StatefulWidget {
 }
 
 class _LocationerTestState extends State<LocationerTest> {
-  String location = '';
+  startTime() async {
+    var _duration = new Duration(seconds: 4);
+    return Timer(_duration, navigationPage);
+  }
+
+  navigationPage() {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (BuildContext context) => FadeInStraight(1, NameSelectionPage())));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    startTime();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Text("Your location is $location"),
-          RaisedButton(
-            child: Text("Get location"),
-            onPressed: () async {
-              Position position = await Geolocator()
-                  .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-              setState(() {
-                location = "${position.longitude}, ${position.latitude}";
-              });
-            },
-          ),
-          RaisedButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => ChatPage(
-                      repository: Constants.of(context).viciniaRepository, name: "munkurious"),
-                ),
-              );
-            },
-          )
-        ],
+    return Scaffold(
+      body: Center(
+        child: Image.asset('assets/icon/icon.png'),
       ),
     );
   }

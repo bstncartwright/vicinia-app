@@ -67,23 +67,30 @@ class _ChatPageState extends State<ChatPage> {
       data: IconThemeData(color: Theme.of(context).accentColor),
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Row(
-          children: <Widget>[
-            Flexible(
-              child: TextField(
-                controller: _textController,
-                onSubmitted: _handleSubmitted,
-                decoration:
-                    InputDecoration.collapsed(hintText: "Send a message"),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 8.0,
+          ),
+          child: Row(
+            children: <Widget>[
+              Flexible(
+                child: TextField(
+                  controller: _textController,
+                  onSubmitted: _handleSubmitted,
+                  maxLength: 280,
+                  decoration:
+                      InputDecoration.collapsed(hintText: "Send a message"),
+                ),
               ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 4.0),
-              child: IconButton(
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 4.0),
+                child: IconButton(
                   icon: Icon(Icons.send),
-                  onPressed: () => _handleSubmitted(_textController.text)),
-            ),
-          ],
+                  onPressed: () => _handleSubmitted(_textController.text),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
