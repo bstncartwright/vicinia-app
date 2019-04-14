@@ -63,7 +63,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   Future<void> _fetchInFuture() async {
     await Future.delayed(Duration(seconds: 5));
     this.dispatch(Fetch());
-    // some crazyness for testing
+    // some crazyness for testing dd
     //   await Future.delayed(Duration(seconds: 2));
     //   var rng = Random();
     //   repository.createMessage(Message.fromJson(
