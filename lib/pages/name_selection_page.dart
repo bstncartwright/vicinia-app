@@ -82,6 +82,11 @@ class _NameSelectionPageState extends State<NameSelectionPage>
           _handleSubmitted(_textController.text);
         }
       },
+      onHorizontalDragUpdate: (details) {
+        if (details.delta.dx < 0) {
+          _handleSubmitted(_textController.text);
+        }
+      },
       child: Scaffold(
         //appBar: AppBar(title: Text("Username | Vicinia")),
         body: Center(
