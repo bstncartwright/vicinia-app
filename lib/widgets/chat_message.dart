@@ -12,8 +12,26 @@ class ChatMessage extends StatelessWidget {
       : assert(message != null),
         super(key: key);
 
+  String _ago(int minutes) {
+    if(minutes == 0){
+      return "Now";
+    }else if(minutes>60){
+      int s =  minutes ~/ 60;
+      if(s>1){
+      return "$s hours ago";
+      }else{
+        return"$s hour ago";
+      }
+    }else{
+    return "$minutes minutes ago";
+  }
+  }
+
   @override
   Widget build(BuildContext context) {
+    var sTime = message.time;
+    var coolTime = DateTime.parse(sTime);
+    var time = _ago(DateTime.now().difference(coolTime).inMinutes);
     return Container(
       child: Padding(
         padding: incoming
@@ -33,11 +51,16 @@ class ChatMessage extends StatelessWidget {
                     incoming ? MainAxisAlignment.start : MainAxisAlignment.end,
                 children: <Widget>[
                   Text(
-                    message.name,
+                    time,
                     style: Theme.of(context)
                         .textTheme
                         .title
-                        .copyWith(fontSize: 18.0),
+                        .copyWith(fontSize: 12),
+                    // message.name,
+                    // style: Theme.of(context)
+                    //     .textTheme
+                    //     .title
+                    //     .copyWith(fontSize: 18.0),
                   ),
                 ],
               ),

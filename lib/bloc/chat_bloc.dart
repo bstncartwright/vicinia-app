@@ -13,6 +13,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final String username;
   Location location;
   String placemark = '';
+  int id = 0;
 
   ChatBloc({@required this.username, @required this.repository}) : super();
 
@@ -70,7 +71,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     }
     if (event is Send) {
       var message = Message.fromJson(
-          '{ "id":"123", "name":"$username", "text":"${event.message}", "time":"${DateTime.now().toIso8601String()}", "location":{ "long":${location.long}, "lat":${location.lat} } }');
+          '{ "id":"123${id++}", "name":"$username", "text":"${event.message}", "time":"${DateTime.now().toIso8601String()}", "location":{ "long":${location.long}, "lat":${location.lat} } }');
       final sent = await repository.createMessage(message);
       if (!sent) {
         // handle error

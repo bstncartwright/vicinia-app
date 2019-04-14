@@ -140,7 +140,7 @@ class _ChatPageState extends State<ChatPage> {
           return _mainLayout(
               child: Center(
                 child: Container(
-                  child: Text("Welcome to Valincia!"),
+                  child: Text("Welcome to Vicinia!"),
                 ),
               ),
               state: state);
