@@ -183,7 +183,7 @@ class _NameSelectionPageState extends State<NameSelectionPage>
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("SWIPE RIGHT TO JOIN"),
+                          Text("SWIPE LEFT TO JOIN"),
                         ],
                       ),
                     ),
